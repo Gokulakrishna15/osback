@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express"; // FIXED: Imported Request and Response
 import Student from "../models/studentSchema";
 
 const monitoringRoutes = Router();
 
 // GET: Fetch all students
-monitoringRoutes.get("/students", async (req, res) => {
+monitoringRoutes.get("/students", async (req: Request, res: Response) => {
   try {
     const students = await Student.find();
     res.json(students);
@@ -14,7 +14,7 @@ monitoringRoutes.get("/students", async (req, res) => {
 });
 
 // POST: Add a student (for testing/demo)
-monitoringRoutes.post("/students", async (req, res) => {
+monitoringRoutes.post("/students", async (req: Request, res: Response) => {
   try {
     const { name, status, activity } = req.body;
     const student = new Student({ name, status, activity });
@@ -26,13 +26,16 @@ monitoringRoutes.post("/students", async (req, res) => {
 });
 
 // PUT: Flag an incident for a student
-monitoringRoutes.put("/students/:id/flag", async (req, res) => {
+monitoringRoutes.put("/students/:id/flag", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { incident } = req.body;
 
     const student = await Student.findById(id);
-    if (!student) return res.status(404).json({ error: "Student not found" });
+    if (!student) {
+        res.status(404).json({ error: "Student not found" });
+        return; 
+    }
 
     student.flaggedIncidents.push(incident);
     await student.save();

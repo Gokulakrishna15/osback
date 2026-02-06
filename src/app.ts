@@ -23,7 +23,8 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    // FIXED: Added strict types for origin and callback to satisfy TypeScript
+    origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
       // Allow requests with no origin (like mobile apps, Postman, or curl)
       if (!origin) return callback(null, true);
       
