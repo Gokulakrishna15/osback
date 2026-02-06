@@ -16,6 +16,7 @@ const app = express();
 //middleware
 const allowedOrigins = [
   "https://onlineassessmentplatform.netlify.app",
+  "https://effervescent-pothos-c78a1a.netlify.app", // <--- ADDED THIS (Fixes CORS Error)
   "http://localhost:5173",
   "http://localhost:3000",
   "http://127.0.0.1:5173"
